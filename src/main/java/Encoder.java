@@ -1,9 +1,13 @@
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import static org.apache.commons.codec.binary.Hex.decodeHex;
 
@@ -66,27 +70,34 @@ public class Encoder {
 
 
 
-        byte[] message = new byte[messageLength];//розбити розпарсити на частини самостійно
+        MessageEncoder message = new MessageEncoder(messageLength);
+
+        try {
+            byte [] encodemsg = message.decodeMsg(message.getMessage());
+            System.out.println(encodemsg);
+
+            byte [] decodemsg = message.decodeMsg(encodemsg);
 
 
-        final int bigEndianCode = ByteBuffer.wrap(message,0,4).order(ByteOrder.BIG_ENDIAN).getInt();
-
-        final int currentUserID = ByteBuffer.wrap(message,4,4).order(ByteOrder.BIG_ENDIAN).getInt();
-
-        final String msg = ByteBuffer.wrap(message,8,messageLength-8).order(ByteOrder.BIG_ENDIAN).toString();
-
-
-
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         System.arraycopy(inputPacket, 16, message, 0, messageLength);
 
-        System.out.println("Input message: " + new String(message, StandardCharsets.UTF_8));
+        System.out.println("Input message: " + new String(message.getMessage(), StandardCharsets.UTF_8));
 
 
         final short messageCRC = ByteBuffer.wrap(inputPacket, 16 + messageLength, 2).order(ByteOrder.BIG_ENDIAN).getShort();//wCrc16_1
         System.out.println("CRC16 for message: " + messageCRC);
 
-        final short actualMessageCrc = CRC16.check(message, 0, messageLength);
+        final short actualMessageCrc = CRC16.check(message.getMessage(), 0, messageLength);
 
         if (messageCRC != actualMessageCrc)
             throw new IllegalArgumentException("Invalid message CRC16, actual CRC16 for message = " + actualMessageCrc + ", but was: " + messageCRC);
