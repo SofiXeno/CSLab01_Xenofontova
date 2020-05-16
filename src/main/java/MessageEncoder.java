@@ -1,9 +1,7 @@
 import javax.crypto.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
+
 
 public class MessageEncoder {
 
@@ -14,6 +12,8 @@ public class MessageEncoder {
     private static byte[] message;
     private static Cipher cipher;
 
+    final String secretKey = "ssshhhhhhhhhhh!!!!11111";
+
 
     public MessageEncoder(int msgLen) {
 
@@ -22,34 +22,29 @@ public class MessageEncoder {
         bUserId = ByteBuffer.wrap(message, 4, 4).order(ByteOrder.BIG_ENDIAN).getInt();
         msg = ByteBuffer.wrap(message, 8, msgLen - 8).order(ByteOrder.BIG_ENDIAN).toString();
 
-        try {
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        }
+        String encryptedMessage = AES.encrypt(msg, secretKey) ;
+        String decryptedMessage = AES.decrypt(encryptedMessage, secretKey) ;
 
 
     }
 
-    public byte[] decodeMsg(byte[] codemsg) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException {//decryption расшифрование
-        KeyGenerator kg = KeyGenerator.getInstance("AES/CBC/PKCS5Padding");
-
-        Key key =  kg.generateKey();// get / create symmetric encryption key
-        cipher.init(Cipher.DECRYPT_MODE, key);
-
-        return cipher.doFinal(codemsg);
-    }
-
-    public byte[] encodeMsg(byte[] plainmsg) throws NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {//encryption шифрование
-
-        KeyGenerator kg = KeyGenerator.getInstance("AES/CBC/PKCS5Padding");
-        Key key = kg.generateKey(); // get / create symmetric encryption key
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-
-        return cipher.doFinal(plainmsg);
-    }
+//    public byte[] decodeMsg(byte[] codemsg) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException {//decryption расшифрование
+//        KeyGenerator kg = KeyGenerator.getInstance("AES/CBC/PKCS5Padding");
+//
+//        Key key =  kg.generateKey();// get / create symmetric encryption key
+//        cipher.init(Cipher.DECRYPT_MODE, key);
+//
+//        return cipher.doFinal(codemsg);
+//    }
+//
+//    public byte[] encodeMsg(byte[] plainmsg) throws NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {//encryption шифрование
+//
+//        KeyGenerator kg = KeyGenerator.getInstance("AES/CBC/PKCS5Padding");
+//        Key key = kg.generateKey(); // get / create symmetric encryption key
+//        cipher.init(Cipher.ENCRYPT_MODE, key);
+//
+//        return cipher.doFinal(plainmsg);
+//    }
 
     public int getcType() {
         return cType;

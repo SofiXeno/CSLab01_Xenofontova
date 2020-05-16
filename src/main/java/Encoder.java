@@ -1,3 +1,4 @@
+import lombok.SneakyThrows;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
@@ -13,6 +14,8 @@ import static org.apache.commons.codec.binary.Hex.decodeHex;
 
 
 public class Encoder {
+
+
     public static void main(String[] args) throws DecoderException {
 
         final String plainText = "My-plain-t";
@@ -38,13 +41,16 @@ public class Encoder {
 
     }
 
-    public static byte[] encodePacket(String packet){
+    public static byte[] encodePacket(String packet) {
         return packet.getBytes();
     }
 
+    @SneakyThrows
     public static void decodePacket(final byte[] inputPacket) {
 
-        if (inputPacket[0] != 0x13) throw new IllegalArgumentException("Invalid magic byte");//bMagic
+
+
+        if (inputPacket[0] != 0x13) throw new WrongH13Exception("Invalid magic byte");//bMagic
 
 
         final int clientID = inputPacket[1] & 0xFF;//bSrc
@@ -61,33 +67,16 @@ public class Encoder {
 
         final short headerCRC = ByteBuffer.wrap(inputPacket, 14, 2).order(ByteOrder.BIG_ENDIAN).getShort();//wCrc16_1
         System.out.println("CRC16 header: " + headerCRC);
-      //  byte[] headBytes = new byte[14];
-      //  System.arraycopy(inputPacket, 0, headBytes, 0, 14);
+        //  byte[] headBytes = new byte[14];
+        //  System.arraycopy(inputPacket, 0, headBytes, 0, 14);
         final short actualHeaderCrc = CRC16.check(inputPacket, 0, 14);
 
         if (headerCRC != actualHeaderCrc)
-            throw new IllegalArgumentException("Invalid header CRC16, actual CRC16 for header = " + actualHeaderCrc + ", but was: " + headerCRC);
-
+            throw new CRCHeaderException("Invalid header CRC16, actual CRC16 for header = " + actualHeaderCrc + ", but was: " + headerCRC);
 
 
         MessageEncoder message = new MessageEncoder(messageLength);
 
-        try {
-            byte [] encodemsg = message.decodeMsg(message.getMessage());
-            System.out.println(encodemsg);
-
-            byte [] decodemsg = message.decodeMsg(encodemsg);
-
-
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
         System.arraycopy(inputPacket, 16, message, 0, messageLength);
 
@@ -100,7 +89,7 @@ public class Encoder {
         final short actualMessageCrc = CRC16.check(message.getMessage(), 0, messageLength);
 
         if (messageCRC != actualMessageCrc)
-            throw new IllegalArgumentException("Invalid message CRC16, actual CRC16 for message = " + actualMessageCrc + ", but was: " + messageCRC);
+            throw new CRCMessageException("Invalid message CRC16, actual CRC16 for message = " + actualMessageCrc + ", but was: " + messageCRC);
 
 
     }
@@ -119,6 +108,9 @@ public class Encoder {
 
         return ByteBuffer.allocate(14 + 2 + bytes.length + 2).put(header).putShort(CRC16.check(header, 0, header.length)).put(bytes).putShort(CRC16.check(bytes, 0, bytes.length)).array();
     }
+
+
+
 
 
 }
