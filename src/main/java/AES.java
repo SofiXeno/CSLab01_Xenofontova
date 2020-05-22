@@ -7,7 +7,7 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AES {
+public class AES {//клас що працює з алгоритмом шифрування АЕС
 
     private static SecretKeySpec secretKey;
     private static byte[] key;

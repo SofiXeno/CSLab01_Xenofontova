@@ -5,7 +5,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class Receiver {
+public class Receiver {// клас що розбиває пакет на блоки меджик байт, айді користувача тощо...
 
     public void receiveMessage(byte[] msg){
         decodePacket(msg);
