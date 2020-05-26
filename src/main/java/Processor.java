@@ -22,11 +22,11 @@ public class Processor implements Runnable {
     }
 
 
-    public static void shutdown() {
+    public static void shutdown(Long l, TimeUnit t) {
         try {
 
             service.shutdown();
-            while (!service.awaitTermination(24L, TimeUnit.HOURS))
+            while (!service.awaitTermination(l,t))
                 System.out.println("Not yet. Still waiting for termination PROCESSOR");
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -40,7 +40,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        Processor.shutdown();
+        Processor.shutdown(24L,TimeUnit.HOURS);
         System.out.println("Tasks gone!");
 
         System.out.println("Decrypted message: " + Encryptor.decrypt(encryptedMsg));//розшифрувати повідомлення

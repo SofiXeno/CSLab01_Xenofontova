@@ -15,20 +15,17 @@ public class MainTest {
     @Test(expected = InterruptedException.class)
     public void ShouldThrowException_When_MainIsInterrupted() throws DecoderException {
 
-        mainWork(TimeUnit.MINUTES);
-
+        mainWork(1L, TimeUnit.MILLISECONDS);
     }
 
     //тест на правильність виконання
     @Test
     public void ShouldPass() throws DecoderException {
-        mainWork(TimeUnit.HOURS);
+        mainWork(24L, TimeUnit.HOURS);
 
     }
 
-    public void mainWork(TimeUnit t) {
-
-
+    public void mainWork(Long l, TimeUnit t) {
         for (int i = 0; i < 10; i++)
             executorService.submit(() -> {
                 TCPNetwork tcpNetwork = new TCPNetwork();
@@ -36,18 +33,16 @@ public class MainTest {
 
             });
 
-
         try {
             executorService.shutdown();
-            while (!executorService.awaitTermination(24L, t))
+            while (!executorService.awaitTermination(l, t))
                 System.out.println("Not yet. Still waiting for termination MAIN");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        Processor.shutdown();
-
+        Processor.shutdown(l,t);
 
     }
 
