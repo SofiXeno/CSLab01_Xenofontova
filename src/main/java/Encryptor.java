@@ -1,3 +1,5 @@
+
+
 public class Encryptor {
 
     private static final String secretKey = "ssshhhhhhhhhhh!!!!"; //клас що енкріптить пакет що надійшов

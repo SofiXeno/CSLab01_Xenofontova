@@ -1,14 +1,16 @@
+package utils;
+
 /******************************************************************************
- *  Compilation:  javac CRC16.java
- *  Execution:    java CRC16 s
+ *  Compilation:  javac utils.CRC16.java
+ *  Execution:    java utils.CRC16 s
  *
  *  Reads in a string s as a command-line argument, and prints out
- *  its 16-bit Cyclic Redundancy Check (CRC16). Uses a lookup table.
+ *  its 16-bit Cyclic Redundancy Check (utils.CRC16). Uses a lookup table.
  *
  *  Reference:  http://www.gelato.unsw.edu.au/lxr/source/lib/crc16.c
  *
- *  % java CRC16 123456789
- *  CRC16 = bb3d
+ *  % java utils.CRC16 123456789
+ *  utils.CRC16 = bb3d
  *
  * Uses irreducible polynomial:  1 + x^2 + x^15 + x^16
  *

@@ -1,4 +1,3 @@
-
 class WrongH13Exception extends IllegalArgumentException {
         public WrongH13Exception(String message) {
             super(message);

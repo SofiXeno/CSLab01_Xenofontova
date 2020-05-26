@@ -1,6 +1,6 @@
-/*************************************************************************
- *  Compilation:  javac StdOut.java
- *  Execution:    java StdOut
+package utils; /*************************************************************************
+ *  Compilation:  javac utils.StdOut.java
+ *  Execution:    java utils.StdOut
  *
  *  Writes data of various types to standard output.
  *
@@ -219,10 +219,10 @@ public final class StdOut {
 //    public static void main(String[] args) {
 //
 //        // write to stdout
-//        StdOut.println("Test");
-//        StdOut.println(17);
-//        StdOut.println(true);
-//        StdOut.printf("%.6f\n", 1.0/7.0);
+//        utils.StdOut.println("Test");
+//        utils.StdOut.println(17);
+//        utils.StdOut.println(true);
+//        utils.StdOut.printf("%.6f\n", 1.0/7.0);
 //    }
 
 }
