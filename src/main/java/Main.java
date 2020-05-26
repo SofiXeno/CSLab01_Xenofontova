@@ -15,13 +15,18 @@ public class Main {
 //        r.receiveMessage(client.sendMessage("Hello from this test"));
 
 
-        ExecutorService executorService = Executors.newFixedThreadPool(12);
+        ExecutorService executorService = Executors.newFixedThreadPool(18);
+
+        String msg = "hello";
+        String encryptedMsg = Encryptor.encrypt(msg); //зашифрувати повідомлення
+
+        System.out.println("Encrypted message: " + encryptedMsg);
 
 
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < 10; i++)
             executorService.submit(() -> {
                 TCPNetwork tcpNetwork = new TCPNetwork();
-                tcpNetwork.receiveMessage();
+                tcpNetwork.receiveMessage(encryptedMsg);
 
             });
 
@@ -37,6 +42,8 @@ public class Main {
 
         Processor.shutdown();
         System.out.println("Tasks gone!");
+
+        System.out.println("Decrypted message: " + Encryptor.decrypt(encryptedMsg));//розшифрувати повідомлення
 
 
     }

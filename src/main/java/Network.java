@@ -5,7 +5,7 @@ public interface Network {
 
 
 
-void receiveMessage();
+void receiveMessage(String str);
 void sendAnswerMessage(String msg, InetAddress inetAddress);
 
 

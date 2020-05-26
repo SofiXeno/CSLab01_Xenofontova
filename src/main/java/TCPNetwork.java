@@ -18,13 +18,16 @@ public class TCPNetwork implements Network {
 
 
     @Override
-    public void receiveMessage() {
+    public void receiveMessage(String msg) {
 
-        String msg = "hello";
+
 
         Packet packet = new Packet(1, 1,1,1,msg);
 
-        //зашифровать сообщение
+
+        Processor.process(packet);
+
+
 
     }
 

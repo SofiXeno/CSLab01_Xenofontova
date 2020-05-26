@@ -16,6 +16,7 @@ public class Processor implements Runnable {
     }
 
     public static void process(Packet packet) {
+
         service.submit(new Processor(packet));
 
     }
@@ -39,11 +40,11 @@ public class Processor implements Runnable {
     public void run() {
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
 
             InetAddress inetAddress = InetAddress.getLocalHost();
 
-            new TCPNetwork().sendAnswerMessage("#" + Thread.currentThread().getId() + " : OK! Hello from the other side it\'s " + LocalDateTime.now(), inetAddress);
+            new TCPNetwork().sendAnswerMessage("#" + Thread.currentThread().getId() + " : OK! Hello from the other side --> it\'s " + LocalDateTime.now(), inetAddress);
 
 
         } catch (Exception e) {
