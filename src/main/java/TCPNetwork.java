@@ -24,7 +24,6 @@ public class TCPNetwork implements Network {
 
         Packet packet = new Packet(1, 1,1,1,msg);
 
-
         Processor.process(packet);
 
 

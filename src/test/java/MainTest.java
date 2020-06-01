@@ -15,7 +15,9 @@ public class MainTest {
     @Test(expected = InterruptedException.class)
     public void ShouldThrowException_When_MainIsInterrupted() throws DecoderException {
 
+        Thread.currentThread().interrupt();
         mainWork(1L, TimeUnit.MILLISECONDS);
+
     }
 
     //тест на правильність виконання
@@ -42,7 +44,7 @@ public class MainTest {
             e.printStackTrace();
         }
 
-        Processor.shutdown(l,t);
+        Processor.shutdown(l, t);
 
     }
 
