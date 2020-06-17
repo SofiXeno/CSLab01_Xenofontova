@@ -1,17 +1,24 @@
 public class Product {
 
     private String name;
-    private int price;
+    private double price;
     private int amount;
-    private int id;
+    private Integer id;
 
 
-    public Product(int id, String name, int price, int amount) {
+    public Product(Integer id, String name, double price, int amount) {
 
         this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
+
+    }
+
+    public Product(String name, double price, int amount) {
+
+        this(null, name, price, amount);
+
 
     }
 
@@ -23,7 +30,7 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -46,4 +53,15 @@ public class Product {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Product {" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", amount=" + amount +
+                ", id=" + id +
+                "}";
+    }
+
 }
