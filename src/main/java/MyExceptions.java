@@ -6,7 +6,7 @@ class WrongH13Exception extends IllegalArgumentException {
     }
 }
 
-class CRCHeaderException extends IllegalArgumentException {//тут я зібрала всі свої власно названі ексепшени для роботи з джюніт тестами
+class CRCHeaderException extends IllegalArgumentException {
 
     public CRCHeaderException(String message) {
         super(message);

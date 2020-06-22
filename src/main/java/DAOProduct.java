@@ -14,17 +14,17 @@ public class DAOProduct {
 
     private Connection connection;
 
-    public DAOProduct(final String dbFile) {//для фінального проету використовувати файлик
+    public DAOProduct(final String dbFile) {//РґР»СЏ С„С–РЅР°Р»СЊРЅРѕРіРѕ РїСЂРѕРµС‚Сѓ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С„Р°Р№Р»РёРє
         try {
             Class.forName("org.sqlite.JDBC");
 
             this.connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);//"jdbc:sqlite::memory"
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Can`t find and load SQLite JDBC class", e);//викинути власний ексепшн
+            throw new RuntimeException("Can`t find and load SQLite JDBC class", e);//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
 
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Can`t find SQL class");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t find SQL class");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }
@@ -82,21 +82,21 @@ public class DAOProduct {
             insertStatement.setInt(3, product.getAmount());
 
             insertStatement.execute();
-            connection.commit();//закомітили транзакцію
+            connection.commit();//Р·Р°РєРѕРјС–С‚РёР»Рё С‚СЂР°РЅР·Р°РєС†С–СЋ
 
-            final ResultSet resultSet = insertStatement.getGeneratedKeys();//отримали резалт сет айді всіх продуктів
+            final ResultSet resultSet = insertStatement.getGeneratedKeys();//РѕС‚СЂРёРјР°Р»Рё СЂРµР·Р°Р»С‚ СЃРµС‚ Р°Р№РґС– РІСЃС–С… РїСЂРѕРґСѓРєС‚С–РІ
 
-            return resultSet.getInt("last_insert_rowid()");//отримали айдішку нового продукту
+            return resultSet.getInt("last_insert_rowid()");//РѕС‚СЂРёРјР°Р»Рё Р°Р№РґС–С€РєСѓ РЅРѕРІРѕРіРѕ РїСЂРѕРґСѓРєС‚Сѓ
 
 
         } catch (SQLException e) {
             try {
                 connection.rollback();
-                throw new FoundOfSQLClassException("Can`t insert new product into table");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t insert new product into table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
 
 
             } catch (SQLException e1) {
-                throw new FoundOfSQLClassException("Can`t rollback transaction");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t rollback transaction");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
 
             }
 
@@ -119,7 +119,7 @@ public class DAOProduct {
 
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Can`t update product");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t update product");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }
@@ -143,7 +143,7 @@ public class DAOProduct {
 
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Can`t delete product");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t delete product");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }
@@ -172,7 +172,7 @@ public class DAOProduct {
 
 
         } catch (SQLException e) {
-            throw new FoundOfSQLClassException("Can`t create product table");//викинути власний ексепшн
+            throw new FoundOfSQLClassException("Can`t create product table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
         }
 
     }
@@ -183,7 +183,7 @@ public class DAOProduct {
 
     //LIST BY CRITERIA
     @SneakyThrows
-    public List<Product> getProductList(final int page, final int size, final ProductFilter productFilter) {//page - номер порції(порядковий номер сторінки), size - розмір порції(к-ть інфи на сторінці) за раз
+    public List<Product> getProductList(final int page, final int size, final ProductFilter productFilter) {//page - РЅРѕРјРµСЂ РїРѕСЂС†С–С—(РїРѕСЂСЏРґРєРѕРІРёР№ РЅРѕРјРµСЂ СЃС‚РѕСЂС–РЅРєРё), size - СЂРѕР·РјС–СЂ РїРѕСЂС†С–С—(Рє-С‚СЊ С–РЅС„Рё РЅР° СЃС‚РѕСЂС–РЅС†С–) Р·Р° СЂР°Р·
         try (final Statement statement = connection.createStatement()) {
 
 //            final String query="";
@@ -200,9 +200,9 @@ public class DAOProduct {
 
 
             final String where = query1.isEmpty() ? "" : " where " + query1;
-            final String finalSql = String.format("SELECT * from 'products' %s LIMIT %s OFFSET %s", where, size, page * size);//limit вказує скільки ми хочемо вичитати рядків за раз, offset відступ від першого рядка
+            final String finalSql = String.format("SELECT * from 'products' %s LIMIT %s OFFSET %s", where, size, page * size);//limit РІРєР°Р·СѓС” СЃРєС–Р»СЊРєРё РјРё С…РѕС‡РµРјРѕ РІРёС‡РёС‚Р°С‚Рё СЂСЏРґРєС–РІ Р·Р° СЂР°Р·, offset РІС–РґСЃС‚СѓРї РІС–Рґ РїРµСЂС€РѕРіРѕ СЂСЏРґРєР°
 
-            final ResultSet resultSet = statement.executeQuery(finalSql);//в межах проекту створити sql файл куди виписати всі ці команди щоб не створювати 10 продуктів ручками
+            final ResultSet resultSet = statement.executeQuery(finalSql);//РІ РјРµР¶Р°С… РїСЂРѕРµРєС‚Сѓ СЃС‚РІРѕСЂРёС‚Рё sql С„Р°Р№Р» РєСѓРґРё РІРёРїРёСЃР°С‚Рё РІСЃС– С†С– РєРѕРјР°РЅРґРё С‰РѕР± РЅРµ СЃС‚РІРѕСЂСЋРІР°С‚Рё 10 РїСЂРѕРґСѓРєС‚С–РІ СЂСѓС‡РєР°РјРё
 
 
             final List<Product> products = new ArrayList<>();
@@ -214,7 +214,7 @@ public class DAOProduct {
 
 
         } catch (SQLException e) {
-            throw new FoundOfSQLClassException("Can`t create product table");//викинути власний ексепшн
+            throw new FoundOfSQLClassException("Can`t create product table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
         }
 
 
@@ -228,7 +228,7 @@ public class DAOProduct {
 
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Can`t create product table");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t create product table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }
@@ -237,34 +237,34 @@ public class DAOProduct {
     }
 
 
-    //метод що перевіряє чи можна створити продукт з таким іменем до того як ми безпосередньо можемо його інсертити
+    //РјРµС‚РѕРґ С‰Рѕ РїРµСЂРµРІС–СЂСЏС” С‡Рё РјРѕР¶РЅР° СЃС‚РІРѕСЂРёС‚Рё РїСЂРѕРґСѓРєС‚ Р· С‚Р°РєРёРј С–РјРµРЅРµРј РґРѕ С‚РѕРіРѕ СЏРє РјРё Р±РµР·РїРѕСЃРµСЂРµРґРЅСЊРѕ РјРѕР¶РµРјРѕ Р№РѕРіРѕ С–РЅСЃРµСЂС‚РёС‚Рё
     @SneakyThrows
-    public boolean isNameUnique(final String productName) {//page - номер порції, size - розмір порції за раз
+    public boolean isNameUnique(final String productName) {//page - РЅРѕРјРµСЂ РїРѕСЂС†С–С—, size - СЂРѕР·РјС–СЂ РїРѕСЂС†С–С— Р·Р° СЂР°Р·
         try (final Statement statement = connection.createStatement()) {
 
-            final ResultSet resultSet = statement.executeQuery(String.format("SELECT count(*) as number_of_products from 'products' where name = '%s'", productName));//в межах проекту створити sql файл куди виписати всі ці команди щоб не створювати 10 продуктів ручками
+            final ResultSet resultSet = statement.executeQuery(String.format("SELECT count(*) as number_of_products from 'products' where name = '%s'", productName));//РІ РјРµР¶Р°С… РїСЂРѕРµРєС‚Сѓ СЃС‚РІРѕСЂРёС‚Рё sql С„Р°Р№Р» РєСѓРґРё РІРёРїРёСЃР°С‚Рё РІСЃС– С†С– РєРѕРјР°РЅРґРё С‰РѕР± РЅРµ СЃС‚РІРѕСЂСЋРІР°С‚Рё 10 РїСЂРѕРґСѓРєС‚С–РІ СЂСѓС‡РєР°РјРё
 
             resultSet.next();
 
             return resultSet.getInt("number_of_products") == 0;
 
         } catch (SQLException e) {
-            throw new FoundOfSQLClassException("Can`t create product table");//викинути власний ексепшн
+            throw new FoundOfSQLClassException("Can`t create product table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
         }
 
 
     }
 
-    //ініціалізація нашої бази даних
+    //С–РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ РЅР°С€РѕС— Р±Р°Р·Рё РґР°РЅРёС…
     public void initTable() {
         try (final Statement statement = connection.createStatement()) {
 
             statement.execute("create table if not exists 'products' ('id' INTEGER PRIMARY KEY AUTOINCREMENT,'name' text not null,'price' REAL not null,'amount' INTEGER not null,unique(name));");
-//в межах проекту створити sql файл куди виписати всі ці команди щоб не створювати 10 продуктів ручками
+//РІ РјРµР¶Р°С… РїСЂРѕРµРєС‚Сѓ СЃС‚РІРѕСЂРёС‚Рё sql С„Р°Р№Р» РєСѓРґРё РІРёРїРёСЃР°С‚Рё РІСЃС– С†С– РєРѕРјР°РЅРґРё С‰РѕР± РЅРµ СЃС‚РІРѕСЂСЋРІР°С‚Рё 10 РїСЂРѕРґСѓРєС‚С–РІ СЂСѓС‡РєР°РјРё
 
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Can`t create product table");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("Can`t create product table");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }
@@ -284,7 +284,7 @@ public class DAOProduct {
             st.close();
         } catch (SQLException e) {
             try {
-                throw new FoundOfSQLClassException("Не вірний SQL запит на вибірку даних");//викинути власний ексепшн
+                throw new FoundOfSQLClassException("РќРµ РІС–СЂРЅРёР№ SQL Р·Р°РїРёС‚ РЅР° РІРёР±С–СЂРєСѓ РґР°РЅРёС…");//РІРёРєРёРЅСѓС‚Рё РІР»Р°СЃРЅРёР№ РµРєСЃРµРїС€РЅ
             } catch (FoundOfSQLClassException e1) {
                 e1.getMessage();
             }

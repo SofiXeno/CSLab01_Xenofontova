@@ -16,7 +16,7 @@ public class Main {
 //        ExecutorService executorService = Executors.newFixedThreadPool(18);
 //
 //        String msg = "hello";
-//        String encryptedMsg = Encryptor.encrypt(msg); //зашифрувати повідомлення
+//        String encryptedMsg = Encryptor.encrypt(msg); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //
 //        System.out.println("Encrypted message: " + encryptedMsg);
 //
@@ -41,7 +41,7 @@ public class Main {
 //        Processor.shutdown(24L,TimeUnit.HOURS);
 //        System.out.println("Tasks gone!");
 //
-//        System.out.println("Decrypted message: " + Encryptor.decrypt(encryptedMsg));//розшифрувати повідомлення
+//        System.out.println("Decrypted message: " + Encryptor.decrypt(encryptedMsg));//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 
         System.out.println("CREATE + READ");
